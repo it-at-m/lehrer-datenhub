@@ -51,7 +51,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-path: ["./refarch-backend", "./refarch-eai"] # JSON array formatted as string, contains the paths to the java projects to build
+        build-path: ["./lehrer-datenhub-backend"] # JSON array formatted as string, contains the paths to the java projects to build
     steps:
       - uses: it-at-m/lhm_actions/action-templates/actions/action-codeql@e012d3bda6f9d5511415e2d885f32826049284a4 # v1.0.23
         if: ${{ env.analyze-java == 'true' && (github.ref_name == 'main' || needs.check-changes.outputs.java == 'true') }}

@@ -1,9 +1,7 @@
 <!-- General project links -->
-[open-issues]: https://github.com/it-at-m/refarch-templates/issues
-[new-issue]: https://github.com/it-at-m/refarch-templates/issues/new/choose
-[milestones]: https://github.com/it-at-m/refarch-templates/milestones
-[project-board]: https://github.com/orgs/it-at-m/projects/16
-[documentation]: https://refarch.oss.muenchen.de/templates
+[open-issues]: https://github.com/it-at-m/lehrer-datenhub/issues
+[new-issue]: https://github.com/it-at-m/lehrer-datenhub/issues/new/choose
+[milestones]: https://github.com/it-at-m/lehrer-datenhub/milestones
 [contribution-documentation]: https://refarch.oss.muenchen.de/contribute
 [itm-opensource]: https://opensource.muenchen.de/
 [license]: ../LICENSE
@@ -25,35 +23,23 @@
 [made-with-love-shield]: https://img.shields.io/badge/made%20with%20%E2%9D%A4%20by-it%40M-yellow?style=for-the-badge
 [license-shield]: https://img.shields.io/github/license/it-at-m/refarch-templates?style=for-the-badge
 
-# RefArch Templates
+# Lehrer Datenhub
 
-[![Documentation][documentation-shield]][documentation]
 [![New issue][new-issue-shield]][new-issue]
 [![Made with love by it@M][made-with-love-shield]][itm-opensource]
 [![GitHub license][license-shield]][license]
 
-This project acts as a template and provides starter files for web application projects based on the RefArch (reference architecture) of it@M.
-
-To learn more about the architecture itself, checkout its [documentation][refarch-documentation] or [code][refarch-code].
-
-The templates are based on [Spring][spring-documentation] and [Vue.js][vuejs-documentation].
-
-## Usage
-
-To get set up and learn more about the templates, please check out the [Getting Started][getting-started-documentation] page.
-Also check the respective pages with suggestions on how to [develop][develop-documentation], [document][document-documentation] and [organize][organize-documentation] your project.
+Lehrer Datenhub soll die Planung von Lehrkräften an STÄDTISCHEN Gymnasien, Realschulen und Berufsschulen unterstützen indem Daten aus mehreren Quellen (ASV, Paul@) abgerufen, ergänzt und für die weiter Planung zur Verfügung gestellt werden.
 
 ## Roadmap
 
 See the [open issues][open-issues] for a full list of proposed features (and known issues).
-To get a better overview on what's currently being worked on, check out our [project board][project-board].
 We often also plan our issues in [milestones][milestones].
 
-## Contributing
+## Coding Conventions
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-To learn more about how you can contribute, please read our [contribution documentation][contribution-documentation].
+We use the [itm-java-codeformat](https://github.com/it-at-m/itm-java-codeformat) project to apply code formatting conventions.
+To add those conventions to your favorite IDE, please have a look at the [README of itm-java-codeformat](https://github.com/it-at-m/itm-java-codeformat#verwendung).
 
 ## License
 
