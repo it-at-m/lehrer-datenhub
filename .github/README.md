@@ -2,20 +2,14 @@
 [open-issues]: https://github.com/it-at-m/lehrer-datenhub/issues
 [new-issue]: https://github.com/it-at-m/lehrer-datenhub/issues/new/choose
 [milestones]: https://github.com/it-at-m/lehrer-datenhub/milestones
-[contribution-documentation]: https://refarch.oss.muenchen.de/contribute
 [itm-opensource]: https://opensource.muenchen.de/
 [license]: ../LICENSE
 [code-of-conduct]: ./CODE_OF_CONDUCT.md
 
 <!-- Project specific links -->
 [refarch-documentation]: https://refarch.oss.muenchen.de/
-[refarch-code]: https://github.com/it-at-m/refarch
-[spring-documentation]: https://spring.io/ 
-[vuejs-documentation]:  https://vuejs.org/
-[getting-started-documentation]: https://refarch.oss.muenchen.de/templates/getting-started
-[develop-documentation]: https://refarch.oss.muenchen.de/templates/develop
-[document-documentation]: https://refarch.oss.muenchen.de/templates/document
-[organize-documentation]: https://refarch.oss.muenchen.de/templates/organize
+[asv-doku]: https://doku.asv.bayern.de/
+[lhm-rbs]: https://stadt.muenchen.de/rathaus/verwaltung/referat-bildung-sport.html
 
 <!-- Shields.io links -->
 [documentation-shield]: https://img.shields.io/badge/documentation-blue?style=for-the-badge
@@ -23,18 +17,17 @@
 [made-with-love-shield]: https://img.shields.io/badge/made%20with%20%E2%9D%A4%20by-it%40M-yellow?style=for-the-badge
 [license-shield]: https://img.shields.io/github/license/it-at-m/refarch-templates?style=for-the-badge
 
-# Lehrer Datenhub
+# lehrer-datenhub
 
-[![New issue][new-issue-shield]][new-issue]
 [![Made with love by it@M][made-with-love-shield]][itm-opensource]
 [![GitHub license][license-shield]][license]
 
-Lehrer Datenhub soll die Planung von Lehrkräften an STÄDTISCHEN Gymnasien, Realschulen und Berufsschulen unterstützen indem Daten aus mehreren Quellen (ASV, Paul@) abgerufen, ergänzt und für die weiter Planung zur Verfügung gestellt werden.
+**lehrer-datenhub** is an application with the goal to merge teacher data from ["Amtliche Schulverwaltung (ASV)"][asv-doku] 
+and the City of Munich's internal staff management system "paul@".
 
-## Roadmap
+It allows the input of additional data that is crucial for staff planning but is not present at those primary data sources.
 
-See the [open issues][open-issues] for a full list of proposed features (and known issues).
-We often also plan our issues in [milestones][milestones].
+It provides a central dataset that can be used by the ["Referat für Bildung und Sport (RBS)"][lhm-rbs] for staff planning for the schools operated by the City of Munich.
 
 ## Coding Conventions
 
