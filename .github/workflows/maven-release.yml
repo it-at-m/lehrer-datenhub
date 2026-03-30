@@ -17,6 +17,11 @@ on:
         required: true
         options:
           - lehrer-datenhub-backend
+      createGithubRelease:
+        type: boolean
+        description: "create GitHub release?"
+        required: true
+        default: false
 
 jobs:
   release-maven:
@@ -64,6 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    if: ${{ github.event.inputs.createGithubRelease }}
     steps:
       - name: Download a single artifact
         uses: it-at-m/lhm_actions/action-templates/actions/action-create-github-release@e012d3bda6f9d5511415e2d885f32826049284a4 # v1.0.23
