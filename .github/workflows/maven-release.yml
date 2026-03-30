@@ -19,13 +19,13 @@ on:
         options:
           - lehrer-datenhub-backend
       createGithubRelease:
+        type: choice
         description: "Should a GitHub release be created? (true/false)"
         required: true
-        default: false
+        default: 'false'
         options:
           - true
           - false
-  push:
 
 jobs:
   dummy:
@@ -38,11 +38,11 @@ jobs:
         run: echo "Hallo"
 
       - name: echo
-        if: ${{ github.event.inputs.createGithubRelease == true }}
+        if: ${{ github.event.inputs.createGithubRelease == 'true' }}
         run: echo "GutHub release selected"
 
       - name: echo
-        if: ${{ github.event.inputs.createGithubRelease == false }}
+        if: ${{ github.event.inputs.createGithubRelease == 'false' }}
         run: echo "GutHub release NOT selected"
 
 #  release-maven:
