@@ -1,5 +1,4 @@
-#name: Release Maven
-name: Dummy
+name: Release Maven
 
 on:
   workflow_dispatch:
