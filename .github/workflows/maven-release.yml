@@ -20,81 +20,64 @@ on:
           - lehrer-datenhub-backend
       createGithubRelease:
         type: choice
-        description: "Should a GitHub release be created? (true/false)"
+        description: "create GitHub release? (true/false)"
         required: true
         default: 'false'
         options:
-          - true
-          - false
+          - 'true'
+          - 'false'
 
 jobs:
-  dummy:
+  release-maven:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      MVN_ARTIFACT_ID: ${{ steps.maven-release-step.outputs.MVN_ARTIFACT_ID }}
+      ARTIFACT_NAME: ${{ steps.maven-release-step.outputs.artifact-name }}
+    env:
+      TZ: Europe/Berlin # timezone
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - id: maven-release-step
+        uses: it-at-m/lhm_actions/action-templates/actions/action-maven-release@e012d3bda6f9d5511415e2d885f32826049284a4 # v1.0.23
+        with:
+          app-path: ${{ github.event.inputs.app-path }}
+          releaseVersion: ${{ github.event.inputs.releaseVersion }}
+          developmentVersion: ${{ github.event.inputs.developmentVersion }}
+          use-pr: 'true'
+          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
+          CENTRAL_USERNAME: ${{ secrets.sonatype_username }}
+          CENTRAL_PASSWORD: ${{ secrets.sonatype_password }}
+          GPG_PRIVATE_KEY: ${{ secrets.gpg_private_key }}
 
-      - name: echo
-        run: echo "Hallo"
+  build-image:
+    runs-on: ubuntu-latest
+    needs: release-maven
+    permissions:
+      packages: write
+    steps:
+      - uses: it-at-m/lhm_actions/action-templates/actions/action-build-image@e012d3bda6f9d5511415e2d885f32826049284a4 # v1.0.23
+        with:
+          path: ${{ github.event.inputs.app-path }}
+          image-name: ${{ github.event.inputs.app-path }}
+          registry-password: ${{ secrets.GITHUB_TOKEN }}
+          artifact-name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
+          registry-username: ${{ github.actor }}
+          image-tags: |
+            type=semver,pattern={{version}},value=${{ github.event.inputs.releaseVersion }}
+            type=raw,value=latest
 
-      - name: echo
-        if: ${{ github.event.inputs.createGithubRelease == 'true' }}
-        run: echo "GutHub release selected"
-
-      - name: echo
-        if: ${{ github.event.inputs.createGithubRelease == 'false' }}
-        run: echo "GutHub release NOT selected"
-
-#  release-maven:
-#    runs-on: ubuntu-latest
-#    permissions:
-#      contents: write
-#      pull-requests: write
-#    outputs:
-#      MVN_ARTIFACT_ID: ${{ steps.maven-release-step.outputs.MVN_ARTIFACT_ID }}
-#      ARTIFACT_NAME: ${{ steps.maven-release-step.outputs.artifact-name }}
-#    env:
-#      TZ: Europe/Berlin # timezone
-#    steps:
-#      - id: maven-release-step
-#        uses: it-at-m/lhm_actions/action-templates/actions/action-maven-release@e012d3bda6f9d5511415e2d885f32826049284a4 # v1.0.23
-#        with:
-#          app-path: ${{ github.event.inputs.app-path }}
-#          releaseVersion: ${{ github.event.inputs.releaseVersion }}
-#          developmentVersion: ${{ github.event.inputs.developmentVersion }}
-#          use-pr: 'true'
-#          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
-#          CENTRAL_USERNAME: ${{ secrets.sonatype_username }}
-#          CENTRAL_PASSWORD: ${{ secrets.sonatype_password }}
-#          GPG_PRIVATE_KEY: ${{ secrets.gpg_private_key }}
-#
-#  build-image:
-#    runs-on: ubuntu-latest
-#    needs: release-maven
-#    permissions:
-#      packages: write
-#    steps:
-#      - uses: it-at-m/lhm_actions/action-templates/actions/action-build-image@e012d3bda6f9d5511415e2d885f32826049284a4 # v1.0.23
-#        with:
-#          path: ${{ github.event.inputs.app-path }}
-#          image-name: ${{ github.event.inputs.app-path }}
-#          registry-password: ${{ secrets.GITHUB_TOKEN }}
-#          artifact-name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
-#          registry-username: ${{ github.actor }}
-#          image-tags: |
-#            type=semver,pattern={{version}},value=${{ github.event.inputs.releaseVersion }}
-#            type=raw,value=latest
-#
-#  create-github-release:
-#    needs: release-maven
-#    runs-on: ubuntu-latest
-#    permissions:
-#      contents: write
-#    if: ${{ github.event.inputs.createGithubRelease == 'true' }}
-#    steps:
-#      - name: Download a single artifact
-#        uses: it-at-m/lhm_actions/action-templates/actions/action-create-github-release@e012d3bda6f9d5511415e2d885f32826049284a4 # v1.0.23
-#        with:
-#          artifact-name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
-#          tag-name: ${{ inputs.app-path }}-${{ github.event.inputs.releaseVersion }}
-#          artifact-path: ${{ github.event.inputs.app-path }}/target/*.jar
+  create-github-release:
+    needs: release-maven
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: ${{ github.event.inputs.createGithubRelease == 'true' }}
+    steps:
+      - name: Download a single artifact
+        uses: it-at-m/lhm_actions/action-templates/actions/action-create-github-release@e012d3bda6f9d5511415e2d885f32826049284a4 # v1.0.23
+        with:
+          artifact-name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
+          tag-name: ${{ inputs.app-path }}-${{ github.event.inputs.releaseVersion }}
+          artifact-path: ${{ github.event.inputs.app-path }}/target/*.jar
